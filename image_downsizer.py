@@ -7,6 +7,9 @@ import subprocess
 dir_from = input("Downsize images from: ")
 dir_to = input("To: ")
 extension = input("Extension of images(without a dot): ")
-hor, ver = [int(x) for x in input("Resulting width and height(separated by a space):").split()]
+dimension = input("Resulting width: ") + 'x' + input("Resulting height:") + "!"  # Escaped exclamation to make ImageMagick convert to the exact dimension instead of keeping the aspect ratio.
 
-images = [i for i in listdir(dir_from) if isfile(join(dir_from, i)) and re.match(".*\." + extension, i, re.IGNORECASE)]  # TODO: support multiple extensions at once
+images = [join(dir_from, i).replace('\\', '\\\\') for i in listdir(dir_from) if isfile(join(dir_from, i)) and re.match(".*\." + extension, i, re.IGNORECASE)]  # TODO: support multiple extensions at once
+for index, image in enumerate(images):
+	print(image)
+	subprocess.run(["magick", "convert", image, "-resize", dimension, join(dir_to, f"{index}.jpg")])
