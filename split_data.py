@@ -21,5 +21,5 @@ for i, s in enumerate(["train", "validation", "test"]):
 	print(round(len(files) * ratio_cumsum[i + 1]))
 	print("----------------")
 	for f in files[int(round(len(files) * ratio_cumsum[i])):int(round(len(files) * ratio_cumsum[i + 1]))]:
-		print(f"rename executed: {join(parent_dir, f)} -> {join(subdir, f)}")
+		print(f"renamed {join(parent_dir, f)} to {join(subdir, f)}")
 		os.rename(join(parent_dir, f), join(subdir, f))
