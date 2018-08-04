@@ -1,9 +1,7 @@
 """Moves all files in all subdirectories to their parent directory."""
 # TODO: Generalize
-from os.path import exists, isdir, isfile, join
-import numpy as np
+from os.path import isdir, isfile, join
 import os
-import random
 
 parent_dir = input("The directory the subdirectories are in: ")
 

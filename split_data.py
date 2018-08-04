@@ -17,9 +17,6 @@ for i, s in enumerate(["train", "validation", "test"]):
 	subdir = join(parent_dir, s)
 	if not exists(subdir):
 		os.mkdir(subdir)
-	print(round(len(files) * ratio_cumsum[i]))
-	print(round(len(files) * ratio_cumsum[i + 1]))
-	print("----------------")
 	for f in files[int(round(len(files) * ratio_cumsum[i])):int(round(len(files) * ratio_cumsum[i + 1]))]:
 		print(f"renamed {join(parent_dir, f)} to {join(subdir, f)}")
 		os.rename(join(parent_dir, f), join(subdir, f))
