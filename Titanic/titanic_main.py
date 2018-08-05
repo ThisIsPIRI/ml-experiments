@@ -1,5 +1,11 @@
+import csv
+
+
 def main():
-	pass
+	"""d_raw_train = []
+	with open("train.csv") as f_train:
+		reader = csv.reader(f_train)
+		for column in zip(*reader):"""
 
 
 if __name__ == "__main__":
