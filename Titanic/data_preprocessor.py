@@ -23,16 +23,17 @@ def main():
 	with open("train.csv") as f_original, open("processed_train.csv", 'w', newline='') as f_processed:
 		reader = csv.reader(f_original)
 		writer = csv.writer(f_processed)
-		d_processed = []
+		result_transposed = []
+		discarded = {"PassengerId", "Name", "Ticket", "Cabin"}
 		for column in zip(*reader):
+			if column[0] in discarded:
+				continue
 			if is_number(column[1]):  # TODO: Account for empty cells on the first row
-				if column[0] == "PassengerId":
-					continue
-				d_processed.append(column)
-			elif column[0] != "Name" and column[0] != "Ticket" and column[0] != "Cabin":  # Convert non-numerical features to indicator variables
+				result_transposed.append(column)
+			else:  # Convert non-numerical features to indicator variables.
 				for c in SafeSet(column[1:]).safe_remove(''):
-					d_processed.append([c] + [int(f == c) for f in column[1:]])
-		for r in zip(*d_processed):
+					result_transposed.append([c] + [int(f == c) for f in column[1:]])
+		for r in zip(*result_transposed):
 			writer.writerow(r)
 
 
