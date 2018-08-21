@@ -22,8 +22,10 @@ class SafeSet(set):
 def main():
 	hparams = '{'  # The JSON string of all divisors
 	result_transposed = []
+	filename = input("The filename: ")
+	is_train = input("Is it a training dataset?(y/n): ") == 'y'
 	# Read and process. Assumes column[0] contains the name of the column.
-	with open("train.csv") as f_original:
+	with open(filename) as f_original:
 		reader = csv.reader(f_original)
 		to_discard = {"PassengerId", "Name", "Ticket", "Cabin"}
 		for column in zip(*reader):
@@ -37,14 +39,15 @@ def main():
 				for c in SafeSet(column[1:]).safe_remove(''):
 					result_transposed.append([c] + [int(f == c) for f in column[1:]])
 	# Write the data
-	with open("processed_train.csv", 'w', newline='') as f_processed:
+	with open("processed_" + filename, 'w', newline='') as f_processed:
 		writer = csv.writer(f_processed)
 		for r in zip(*result_transposed):
 			writer.writerow(r)
 	# Write the divisors
-	hparams = hparams[:-2] + '}'  # Remove the trailing comma
-	with open("ScalingDivisors.json", 'w', newline='') as f_hparams:
-		f_hparams.write(hparams)
+	if is_train:
+		hparams = hparams[:-2] + '}'  # Remove the trailing comma
+		with open("ScalingDivisors.json", 'w', newline='') as f_hparams:
+			f_hparams.write(hparams)
 
 
 if __name__ == "__main__":
